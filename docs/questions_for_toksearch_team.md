@@ -100,14 +100,42 @@
 
 ---
 
+## MDSplus Access & Configuration
+
+19. **How do we configure MDSplus access for DIII-D data?**
+    - What is the correct MDSplus server address and port?
+    - Are there environment variables that need to be set?
+    - Is authentication required? If so, what credentials format?
+    - Goal: Enable the AI assistant to generate working code that connects to DIII-D data
+
+20. **Python version compatibility issue with mdsplus package:**
+    - We found that `mdsplus` (conda-forge) requires Python 3.14
+    - But `toksearch` requires Python < 3.13 (currently using 3.12)
+    - This prevents installing the Python MDSplus module
+    - **Questions:**
+      - Is there a Python 3.12 compatible mdsplus package available?
+      - Should we use `toksearch_d3d` instead (as shown in the FDP demo)?
+      - What is the recommended way to access DIII-D MDSplus data with toksearch?
+      - Are there alternative connection methods we should know about?
+    - Goal: Resolve the dependency conflict and enable real data access
+
+21. **toksearch vs toksearch_d3d:**
+    - The FDP demo uses `toksearch_d3d` from the `ga-fdp` channel
+    - What is the difference between `toksearch` and `toksearch_d3d`?
+    - Which one should we use for DIII-D data access?
+    - Does `toksearch_d3d` have different dependencies that solve the mdsplus compatibility issue?
+    - Goal: Use the correct package for DIII-D work
+
+---
+
 ## Workflow Questions
 
-19. **Can you describe a complete analysis workflow from start to finish?**
+22. **Can you describe a complete analysis workflow from start to finish?**
     - From "I want to analyze X" to final results
     - Example question: "Show me all shots where qmin > 2 and ipmhd > 1.5 MA"
     - Goal: Understand the typical scientist workflow
 
-20. **What questions do scientists typically ask about their data?**
+23. **What questions do scientists typically ask about their data?**
     - Help the AI understand what kinds of queries to expect
     - Example: "Which shots had the highest plasma current?", "Find shots similar to this one"
 
@@ -115,11 +143,24 @@
 
 ## Code Quality & Best Practices
 
-21. **Are there any naming conventions or coding standards you recommend?**
+24. **Are there any naming conventions or coding standards you recommend?**
     - For variable names, function names, file organization
 
-22. **What makes a TokSearch script "good" vs "bad" in your view?**
+25. **What makes a TokSearch script "good" vs "bad" in your view?**
     - Characteristics of maintainable, readable, robust code
+
+---
+
+## For After the Meeting
+
+**If time runs out during the meeting, please feel free to:**
+
+- Email your answers to these questions
+- Provide written responses to any questions we didn't cover
+- Share example code or workflows that demonstrate common use cases
+- Suggest additional topics or questions we should have asked
+
+**Contact:** [Your email here]
 
 ---
 
