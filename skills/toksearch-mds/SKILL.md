@@ -1,12 +1,6 @@
 ---
 name: toksearch-mds
 description: MDSplus-specific data access in TokSearch - tree structures, signal paths, and DIII-D data retrieval
-license: Apache-2.0
-compatibility: Designed for deepagents CLI
-metadata:
-  author: GA-FDP
-  version: "1.0"
-  url: https://ga-fdp.github.io/toksearch/
 ---
 
 # TokSearch MDSplus Skill
@@ -31,12 +25,14 @@ MDSplus organizes data in hierarchical trees:
 ```
 
 **Common DIII-D Trees:**
-- `efit` - EFIT equilibrium reconstruction
+- `efit01` - EFIT equilibrium reconstruction (CONFIRMED from FDP demo)
+- `d3d` - Main DIII-D tree (may contain other signals)
 - `pcs` - Plasma Control System
 - `magnetics` - Magnetic diagnostics
 - `ece` - Electron Cyclotron Emission
 - `thomson` - Thomson scattering
-- `d3d` - General DIII-D data
+
+**IMPORTANT:** The FDP demo (from GA-FDP) uses `efit01` for EFIT-related signals like `\kappa` and `\psirz`. This is likely the correct tree for DIII-D EFIT data. Other tree names (magnetics, pcs, etc.) should be confirmed with the TokSearch team.
 
 ### Signal Path Syntax
 
@@ -46,10 +42,15 @@ from toksearch import MdsSignal
 # CORRECT: MdsSignal takes expression and treename as separate arguments
 signal = MdsSignal(r'\signal_name', 'treename')
 
-# Examples
-signal = MdsSignal(r'\ipmhd', 'efit01')      # Plasma current from EFIT
+# Examples for DIII-D (efit01 confirmed from FDP demo):
+signal = MdsSignal(r'\kappa', 'efit01')     # Plasma elongation (EFIT) - CONFIRMED
+signal = MdsSignal(r'\psirz', 'efit01', dims=('r', 'z', 'times'), data_order=['times', 'z', 'r'])  # Flux surface - CONFIRMED
+signal = MdsSignal(r'\ipmhd', 'efit01')     # Plasma current from EFIT - LIKELY CORRECT
+
+# Other trees (UNCONFIRMED - needs team verification):
 signal = MdsSignal(r'\ip', 'magnetics')     # Plasma current from magnetics
 signal = MdsSignal(r'\ne', 'pcs')           # Density from PCS
+signal = MdsSignal(r'\t_e', 'ece')          # Electron temperature from ECE
 
 # IMPORTANT:
 # - Use raw strings r'...' for backslashes
@@ -60,43 +61,46 @@ signal = MdsSignal(r'\ne', 'pcs')           # Density from PCS
 
 ## Common DIII-D Signals by Category
 
-### EFIT (Equilibrium) Signals
+**IMPORTANT NOTE:** Signal names and tree names are based on the FDP demo (GA-FDP) and should be reasonably accurate for EFIT-related signals. Other trees (magnetics, pcs, etc.) have lower confidence and should be confirmed with the TokSearch team.
 
-| Expression | Tree | Description | Units |
-|------------|------|-------------|-------|
-| `\ipmhd` | efit01 | Plasma current | MA |
-| `\t_e` | efit01 | Electron temperature profile | keV |
-| `\ne` | efit01 | Electron density profile | 10^20 m^-3 |
-| `\betap` | efit01 | Poloidal beta | - |
-| `\qmin` | efit01 | Minimum safety factor | - |
-| `\q95` | efit01 | Safety factor at 95% flux | - |
-| `\rmajor` | efit01 | Major radius | m |
-| `\a` | efit01 | Minor radius | m |
-| `\kappa` | efit01 | Elongation | - |
-| `\delta` | efit01 | Triangularity | - |
+### EFIT (Equilibrium) Signals - CONFIRMED from FDP Demo
 
-### PCS (Plasma Control) Signals
+| Expression | Tree | Description | Units | Confidence |
+|------------|------|-------------|-------|------------|
+| `\kappa` | efit01 | Plasma elongation | - | **HIGH** (from FDP demo) |
+| `\psirz` | efit01 | Poloidal flux (2D cross-section) | Wb | **HIGH** (from FDP demo) |
+| `\ipmhd` | efit01 | Plasma current (EFIT) | MA | **MEDIUM** (inferred) |
+| `\t_e` | efit01 | Electron temperature profile | keV | LOW |
+| `\ne` | efit01 | Electron density profile | 10^20 m^-3 | LOW |
+| `\betap` | efit01 | Poloidal beta | - | LOW |
+| `\qmin` | efit01 | Minimum safety factor | - | LOW |
+| `\q95` | efit01 | Safety factor at 95% flux | - | LOW |
+| `\rmajor` | efit01 | Major radius | m | LOW |
+| `\a` | efit01 | Minor radius | m | LOW |
+| `\delta` | efit01 | Triangularity | - | LOW |
 
-| Expression | Tree | Description | Units |
-|------------|------|-------------|-------|
-| `\ts_ip` | pcs | Plasma current (PCS) | A |
-| `\ne` | pcs | Line-averaged density | 10^20 m^-3 |
-| `\gasb` | pcs | Gas injection rate | Torr-L/s |
+### PCS (Plasma Control) Signals - UNCONFIRMED
 
-### Magnetics Signals
+| Expression | Tree | Description | Units | Confidence |
+|------------|------|-------------|-------|------------|
+| `\ts_ip` | pcs | Plasma current (PCS) | A | LOW |
+| `\ne` | pcs | Line-averaged density | 10^20 m^-3 | LOW |
+| `\gasb` | pcs | Gas injection rate | Torr-L/s | LOW |
 
-| Expression | Tree | Description | Units |
-|------------|------|-------------|-------|
-| `\ip` | magnetics | Plasma current | A |
-| `\vloop` | magnetics | Loop voltage | V |
+### Magnetics Signals - UNCONFIRMED
 
-### Diagnostic Signals
+| Expression | Tree | Description | Units | Confidence |
+|------------|------|-------------|-------|------------|
+| `\ip` | magnetics | Plasma current | A or MA | LOW |
+| `\vloop` | magnetics | Loop voltage | V | LOW |
 
-| Expression | Tree | Description | Units |
-|------------|------|-------------|-------|
-| `\t_e` | ece | Electron temperature (ECE) | eV |
-| `\ne` | thomson | Electron density (Thomson) | 10^20 m^-3 |
-| `\te` | thomson | Electron temperature (Thomson) | eV |
+### Diagnostic Signals - UNCONFIRMED
+
+| Expression | Tree | Description | Units | Confidence |
+|------------|------|-------------|-------|------------|
+| `\t_e` | ece | Electron temperature (ECE) | eV | LOW |
+| `\ne` | thomson | Electron density (Thomson) | 10^20 m^-3 | LOW |
+| `\te` | thomson | Electron temperature (Thomson) | eV | LOW |
 
 ## Complete Examples
 
