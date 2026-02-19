@@ -151,19 +151,6 @@
 
 ---
 
-## For After the Meeting
-
-**If time runs out during the meeting, please feel free to:**
-
-- Email your answers to these questions
-- Provide written responses to any questions we didn't cover
-- Share example code or workflows that demonstrate common use cases
-- Suggest additional topics or questions we should have asked
-
-**Contact:** [Your email here]
-
----
-
 ## Notes
 
 - The goal is to enable scientists to use TokSearch through natural language without writing code
