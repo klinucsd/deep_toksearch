@@ -1,12 +1,6 @@
 ---
 name: toksearch-basics
 description: Basic TokSearch API usage - Pipeline, Record, and core data processing concepts for fusion experimental data
-license: Apache-2.0
-compatibility: Designed for deepagents CLI
-metadata:
-  author: GA-FDP
-  version: "1.0"
-  url: https://ga-fdp.github.io/toksearch/
 ---
 
 # TokSearch Basics Skill
