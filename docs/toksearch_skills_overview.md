@@ -148,21 +148,21 @@ max_value = np.max(data)        # Use numpy
 ┌─────────────────────────────────────────────────────────────────┐
 │                      DEMO WORKFLOW                              │
 ├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  1. Generate synthetic DIII-D data                               │
+│                                                                 │
+│  1. Generate synthetic DIII-D data                              │
 │     → scripts/generate_demo_data.py                             │
 │     → Creates demo_d3d_shots.pkl                                │
-│                                                                  │
-│  2. User asks question in natural language                       │
-│     → "Compare plasma current from magnetics and EFIT"           │
-│                                                                  │
-│  3. AI generates Python code                                     │
-│     → Uses correct data access patterns                          │
+│                                                                 │
+│  2. User asks question in natural language                      │
+│     → "Compare plasma current from magnetics and EFIT"          │
+│                                                                 │
+│  3. AI generates Python code                                    │
+│     → Uses correct data access patterns                         │
 │     → Loads pickle file, analyzes data                          │
-│                                                                  │
-│  4. Code runs and produces results                               │
+│                                                                 │
+│  4. Code runs and produces results                              │
 │     → Table with shot numbers, statistics                       │
-│                                                                  │
+│                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
